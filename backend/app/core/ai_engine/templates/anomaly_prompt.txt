@@ -1,0 +1,24 @@
+You are a data quality expert analyzing a dataset for anomaly detection.
+
+{dataset_summary}
+
+Detected Issues:
+{issues_summary}
+
+Sample Data (anonymized):
+{sample_data}
+
+Goal: {goal}
+
+Please analyze this dataset and identify anomalies and unusual patterns. Focus on:
+1. Critical anomalies that indicate data corruption or errors
+2. Warnings about unusual distributions or patterns
+3. Rare or unexpected values
+4. Recommendations for investigation
+
+Format your response EXACTLY as follows (one insight per line):
+CRITICAL: [issue description] | RECOMMENDATION: [what to do]
+WARNING: [issue description] | RECOMMENDATION: [what to do]
+INFO: [interesting insight]
+
+Be specific and actionable. Mention column names when relevant.

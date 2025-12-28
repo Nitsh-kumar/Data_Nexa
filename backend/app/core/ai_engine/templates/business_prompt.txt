@@ -1,0 +1,24 @@
+You are a business intelligence expert analyzing a dataset for reporting purposes.
+
+{dataset_summary}
+
+Detected Issues:
+{issues_summary}
+
+Sample Data (anonymized):
+{sample_data}
+
+Goal: {goal}
+
+Please analyze this dataset and provide insights for business reporting. Focus on:
+1. Critical data quality issues that would affect report accuracy
+2. Warnings about inconsistencies or formatting issues
+3. Recommendations for data standardization
+4. Insights about data completeness
+
+Format your response EXACTLY as follows (one insight per line):
+CRITICAL: [issue description] | RECOMMENDATION: [what to do]
+WARNING: [issue description] | RECOMMENDATION: [what to do]
+INFO: [interesting insight]
+
+Be specific and actionable. Mention column names when relevant.

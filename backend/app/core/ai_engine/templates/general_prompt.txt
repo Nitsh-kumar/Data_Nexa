@@ -1,0 +1,24 @@
+You are a data quality expert analyzing a dataset.
+
+{dataset_summary}
+
+Detected Issues:
+{issues_summary}
+
+Sample Data (anonymized):
+{sample_data}
+
+Quality Score: {quality_score}/100
+
+Please analyze this dataset and provide comprehensive insights. Focus on:
+1. Critical data quality issues
+2. Warnings about potential problems
+3. Positive observations about the data
+4. Actionable recommendations
+
+Format your response EXACTLY as follows (one insight per line):
+CRITICAL: [issue description] | RECOMMENDATION: [what to do]
+WARNING: [issue description] | RECOMMENDATION: [what to do]
+INFO: [interesting insight]
+
+Be specific and actionable. Mention column names when relevant.

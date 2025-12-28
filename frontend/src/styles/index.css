@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import Inter font via CDN to keep setup lightweight. */
+@layer base {
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('https://fonts.gstatic.com/s/inter/v12/UcCO3Fwr-15k5g4P0Ulv.woff2')
+      format('woff2');
+  }
+
+  :root {
+    color: theme('colors.text.primary');
+    background-color: theme('colors.background.secondary');
+  }
+
+  body {
+    @apply font-sans text-text-primary bg-background-secondary antialiased;
+  }
+
+  h1 {
+    @apply text-4xl font-bold text-text-primary;
+  }
+
+  h2 {
+    @apply text-3xl font-semibold text-text-primary;
+  }
+
+  h3 {
+    @apply text-2xl font-semibold text-text-primary;
+  }
+
+  h4 {
+    @apply text-xl font-medium text-text-primary;
+  }
+
+  p {
+    @apply text-base text-text-secondary;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-background-primary rounded-xl border border-gray-200 shadow-sm;
+  }
+}
+

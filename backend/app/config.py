@@ -19,7 +19,12 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
 
     # CORS
-    ALLOWED_ORIGINS: list[str] = ["http://localhost:3000"]
+    ALLOWED_ORIGINS: str = "http://localhost:3000,http://localhost:8000"
+
+    @property
+    def cors_origins(self) -> list[str]:
+        """Get CORS origins as list."""
+        return [origin.strip() for origin in self.ALLOWED_ORIGINS.split(",")]
 
     # Database
     POSTGRES_SERVER: str | None = None
@@ -70,13 +75,18 @@ class Settings(BaseSettings):
 
     # File Upload
     MAX_FILE_SIZE: int = 10 * 1024 * 1024  # 10MB
-    ALLOWED_FILE_TYPES: list[str] = [".csv", ".xlsx", ".xls"]
+    ALLOWED_FILE_TYPES: str = ".csv,.xlsx,.xls"
 
-    # AI / Claude API
-    CLAUDE_API_KEY: str
-    CLAUDE_MODEL: str = "claude-sonnet-4-20250514"
-    CLAUDE_MAX_TOKENS: int = 2000
-    CLAUDE_TEMPERATURE: float = 0.7
+    @property
+    def file_types(self) -> list[str]:
+        """Get allowed file types as list."""
+        return [ext.strip() for ext in self.ALLOWED_FILE_TYPES.split(",")]
+
+    # AI / Groq API
+    GROQ_API_KEY: str
+    GROQ_MODEL: str = "llama-3.1-70b-versatile"
+    GROQ_MAX_TOKENS: int = 2000
+    GROQ_TEMPERATURE: float = 0.7
 
     # Redis Cache
     REDIS_HOST: str = "localhost"

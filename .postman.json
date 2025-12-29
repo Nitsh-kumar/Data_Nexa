@@ -1,0 +1,313 @@
+{
+  "workspace_id": "",
+  "collection_id": "",
+  "collection_name": "DataInsight Pro API",
+  "created_at": "2025-12-29T15:18:00Z",
+  "updated_at": "2025-12-29T15:18:00Z",
+  "api_base_urls": {
+    "local": "http://localhost:8000",
+    "staging": "https://staging-api.datainsight.com",
+    "production": "https://api.datainsight.com"
+  },
+  "collection_structure": {
+    "info": {
+      "name": "DataInsight Pro API",
+      "description": "API collection for DataInsight Pro - A SaaS data profiling tool that analyzes CSV/Excel files and provides AI-powered insights",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+      {
+        "key": "base_url",
+        "value": "{{base_url}}",
+        "type": "string"
+      }
+    ],
+    "auth": {
+      "type": "bearer",
+      "bearer": [
+        {
+          "key": "token",
+          "value": "{{auth_token}}",
+          "type": "string"
+        }
+      ]
+    },
+    "item": [
+      {
+        "name": "Health Check",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "{{base_url}}/health",
+            "host": ["{{base_url}}"],
+            "path": ["health"]
+          }
+        },
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Status code is 200', function () {",
+                "    pm.response.to.have.status(200);",
+                "});",
+                "",
+                "pm.test('Response has status field', function () {",
+                "    const jsonData = pm.response.json();",
+                "    pm.expect(jsonData).to.have.property('status');",
+                "    pm.expect(jsonData.status).to.eql('healthy');",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Insights",
+        "item": [
+          {
+            "name": "Get Insights",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/v1/insights/1?page=1&page_size=20",
+                "host": ["{{base_url}}"],
+                "path": ["api", "v1", "insights", "1"],
+                "query": [
+                  {
+                    "key": "page",
+                    "value": "1"
+                  },
+                  {
+                    "key": "page_size",
+                    "value": "20"
+                  },
+                  {
+                    "key": "severity",
+                    "value": "critical",
+                    "disabled": true
+                  }
+                ]
+              }
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('Status code is 200', function () {",
+                    "    pm.response.to.have.status(200);",
+                    "});",
+                    "",
+                    "pm.test('Response has pagination fields', function () {",
+                    "    const jsonData = pm.response.json();",
+                    "    pm.expect(jsonData).to.have.property('items');",
+                    "    pm.expect(jsonData).to.have.property('total');",
+                    "    pm.expect(jsonData).to.have.property('page');",
+                    "    pm.expect(jsonData).to.have.property('page_size');",
+                    "    pm.expect(jsonData).to.have.property('pages');",
+                    "});"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Get Insights Summary",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/v1/insights/1/summary",
+                "host": ["{{base_url}}"],
+                "path": ["api", "v1", "insights", "1", "summary"]
+              }
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('Status code is 200', function () {",
+                    "    pm.response.to.have.status(200);",
+                    "});",
+                    "",
+                    "pm.test('Response has summary fields', function () {",
+                    "    const jsonData = pm.response.json();",
+                    "    pm.expect(jsonData).to.have.property('critical_count');",
+                    "    pm.expect(jsonData).to.have.property('warning_count');",
+                    "    pm.expect(jsonData).to.have.property('info_count');",
+                    "    pm.expect(jsonData).to.have.property('total_count');",
+                    "    pm.expect(jsonData).to.have.property('executive_summary');",
+                    "});"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Generate Insights",
+            "request": {
+              "method": "POST",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/v1/insights/1/generate?goal_type=general",
+                "host": ["{{base_url}}"],
+                "path": ["api", "v1", "insights", "1", "generate"],
+                "query": [
+                  {
+                    "key": "goal_type",
+                    "value": "general"
+                  }
+                ]
+              }
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('Status code is 201 or 501 (not implemented)', function () {",
+                    "    pm.expect(pm.response.code).to.be.oneOf([201, 501]);",
+                    "});",
+                    "",
+                    "if (pm.response.code === 201) {",
+                    "    pm.test('Response has insights data', function () {",
+                    "        const jsonData = pm.response.json();",
+                    "        pm.expect(jsonData).to.have.property('items');",
+                    "        pm.expect(jsonData).to.have.property('total');",
+                    "    });",
+                    "}"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Get Token Stats",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/v1/insights/stats/tokens",
+                "host": ["{{base_url}}"],
+                "path": ["api", "v1", "insights", "stats", "tokens"]
+              }
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('Status code is 200', function () {",
+                    "    pm.response.to.have.status(200);",
+                    "});",
+                    "",
+                    "pm.test('Response has token usage fields', function () {",
+                    "    const jsonData = pm.response.json();",
+                    "    pm.expect(jsonData).to.have.property('total_tokens');",
+                    "    pm.expect(jsonData).to.have.property('input_tokens');",
+                    "    pm.expect(jsonData).to.have.property('output_tokens');",
+                    "});"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Get Cache Stats",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/v1/insights/stats/cache",
+                "host": ["{{base_url}}"],
+                "path": ["api", "v1", "insights", "stats", "cache"]
+              }
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('Status code is 200', function () {",
+                    "    pm.response.to.have.status(200);",
+                    "});",
+                    "",
+                    "pm.test('Response has cache stats fields', function () {",
+                    "    const jsonData = pm.response.json();",
+                    "    pm.expect(jsonData).to.have.property('hits');",
+                    "    pm.expect(jsonData).to.have.property('misses');",
+                    "    pm.expect(jsonData).to.have.property('hit_rate');",
+                    "});"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "environments": {
+    "local": {
+      "name": "Local Development",
+      "values": [
+        {
+          "key": "base_url",
+          "value": "http://localhost:8000",
+          "enabled": true,
+          "type": "default"
+        },
+        {
+          "key": "auth_token",
+          "value": "",
+          "enabled": true,
+          "type": "secret"
+        }
+      ]
+    },
+    "staging": {
+      "name": "Staging",
+      "values": [
+        {
+          "key": "base_url",
+          "value": "https://staging-api.datainsight.com",
+          "enabled": true,
+          "type": "default"
+        },
+        {
+          "key": "auth_token",
+          "value": "",
+          "enabled": true,
+          "type": "secret"
+        }
+      ]
+    },
+    "production": {
+      "name": "Production",
+      "values": [
+        {
+          "key": "base_url",
+          "value": "https://api.datainsight.com",
+          "enabled": true,
+          "type": "default"
+        },
+        {
+          "key": "auth_token",
+          "value": "",
+          "enabled": true,
+          "type": "secret"
+        }
+      ]
+    }
+  }
+}

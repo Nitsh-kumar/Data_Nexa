@@ -5,7 +5,7 @@ import logging
 from typing import Any
 
 from app.core.ai_engine.cache_manager import CacheManager
-from app.core.ai_engine.claude_client import ClaudeAPIException, ClaudeClient
+from app.core.ai_engine.groq_client import GroqAPIException, GroqClient
 from app.core.ai_engine.code_generator import CodeGenerator
 from app.core.ai_engine.insight_categorizer import InsightCategorizer
 from app.core.ai_engine.models import CategorizedInsight
@@ -27,7 +27,7 @@ class AIService:
 
     def __init__(
         self,
-        claude_client: ClaudeClient | None = None,
+        groq_client: GroqClient | None = None,
         prompt_builder: PromptBuilder | None = None,
         response_parser: ResponseParser | None = None,
         insight_categorizer: InsightCategorizer | None = None,
@@ -38,7 +38,7 @@ class AIService:
         """Initialize AI service.
 
         Args:
-            claude_client: Claude API client
+            groq_client: Groq API client
             prompt_builder: Prompt builder
             response_parser: Response parser
             insight_categorizer: Insight categorizer
@@ -46,7 +46,7 @@ class AIService:
             story_generator: Story generator
             cache_manager: Cache manager
         """
-        self.claude = claude_client or ClaudeClient()
+        self.groq = groq_client or GroqClient()
         self.prompt_builder = prompt_builder or PromptBuilder()
         self.parser = response_parser or ResponseParser()
         self.categorizer = insight_categorizer or InsightCategorizer()
@@ -120,22 +120,22 @@ class AIService:
 
             logger.info(f"Built prompt with {len(prompt)} characters")
 
-            # STEP 3: Call Claude API with automatic retry logic
+            # STEP 3: Call Groq API with automatic retry logic
             # Retries 3 times with exponential backoff (2s, 4s, 8s)
             # Handles rate limits and timeouts gracefully
             try:
-                response = await self.claude.generate(prompt=prompt)
-                logger.info(f"Received Claude response with {len(response)} characters")
+                response = await self.groq.generate(prompt=prompt)
+                logger.info(f"Received Groq response with {len(response)} characters")
 
-            except ClaudeAPIException as e:
+            except GroqAPIException as e:
                 # If API fails after retries, use rule-based fallback
-                logger.warning(f"Claude API failed: {str(e)}, using fallback")
+                logger.warning(f"Groq API failed: {str(e)}, using fallback")
                 return await self._generate_fallback_insights(profile_result, goal_type)
 
             # STEP 4: Validate response format
             # Ensures response contains expected severity keywords (CRITICAL, WARNING, INFO)
             if not self.parser.validate_response(response):
-                logger.warning("Invalid Claude response format, using fallback")
+                logger.warning("Invalid Groq response format, using fallback")
                 return await self._generate_fallback_insights(profile_result, goal_type)
 
             # STEP 5: Parse response into structured insights
@@ -365,7 +365,7 @@ class AIService:
         Returns:
             Dictionary with token usage stats
         """
-        return self.claude.get_token_stats()
+        return self.groq.get_token_stats()
 
     async def get_cache_stats(self) -> dict[str, Any]:
         """Get cache statistics.

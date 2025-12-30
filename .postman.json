@@ -1,18 +1,18 @@
 {
   "workspace_id": "",
   "collection_id": "",
-  "collection_name": "DataInsight Pro API",
+  "collection_name": "Data Nexa API",
   "created_at": "2025-12-29T15:18:00Z",
   "updated_at": "2025-12-29T15:18:00Z",
   "api_base_urls": {
     "local": "http://localhost:8000",
-    "staging": "https://staging-api.datainsight.com",
-    "production": "https://api.datainsight.com"
+    "staging": "https://staging-api.datanexa.com",
+    "production": "https://api.datanexa.com"
   },
   "collection_structure": {
     "info": {
-      "name": "DataInsight Pro API",
-      "description": "API collection for DataInsight Pro - A SaaS data profiling tool that analyzes CSV/Excel files and provides AI-powered insights",
+      "name": "Data Nexa API",
+      "description": "API collection for Data Nexa - A SaaS data profiling tool that analyzes CSV/Excel files and provides AI-powered insights",
       "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
     "variable": [

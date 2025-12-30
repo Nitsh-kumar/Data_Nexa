@@ -11,7 +11,7 @@ export const ProfilePage = () => (
       </div>
       <div className="space-y-4">
         <Input label="Name" defaultValue="Alex Analyst" />
-        <Input label="Email" type="email" defaultValue="alex@datainsight.pro" />
+        <Input label="Email" type="email" defaultValue="alex@datanexa.com" />
         <Button>Save changes</Button>
       </div>
     </div>

@@ -1,4 +1,4 @@
-# DataInsight Pro Backend
+# Data Nexa Backend
 
 A SaaS data profiling tool that analyzes CSV/Excel files and provides AI-powered insights.
 

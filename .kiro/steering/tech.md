@@ -60,7 +60,7 @@ alembic downgrade -1
 ### Docker
 ```bash
 # Build image
-docker build -t datainsight-backend .
+docker build -t datanexa-backend .
 
 # Run container
 docker-compose up -d

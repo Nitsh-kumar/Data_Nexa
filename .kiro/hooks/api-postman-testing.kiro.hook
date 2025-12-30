@@ -18,6 +18,6 @@
   },
   "then": {
     "type": "askAgent",
-    "prompt": "FastAPI backend code has been modified. Please retrieve the contents of the .postman.json file. If the file does not exist or is empty, create a Postman collection for the DataInsight Pro API. If it exists, get the collection ID and run the collection, showing me the results and propose fixes for any errors found."
+    "prompt": "FastAPI backend code has been modified. Please retrieve the contents of the .postman.json file. If the file does not exist or is empty, create a Postman collection for the Data Nexa API. If it exists, get the collection ID and run the collection, showing me the results and propose fixes for any errors found."
   }
 }

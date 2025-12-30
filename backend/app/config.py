@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     )
 
     # Project
-    PROJECT_NAME: str = "DataInsight Pro Backend"
+    PROJECT_NAME: str = "Data Nexa Backend"
     VERSION: str = "0.1.0"
     API_V1_STR: str = "/api/v1"
 
@@ -66,7 +66,7 @@ class Settings(BaseSettings):
                 )
             )
         # Default to SQLite if no DATABASE_URL provided
-        return "sqlite+aiosqlite:///./datainsight.db"
+        return "sqlite+aiosqlite:///./datanexa.db"
 
     # Security
     SECRET_KEY: str

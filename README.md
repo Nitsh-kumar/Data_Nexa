@@ -1,4 +1,4 @@
-# DataInsight Pro
+# Data Nexa
 
 A SaaS data profiling tool that analyzes CSV/Excel files and provides AI-powered insights. Built with FastAPI backend and React frontend.
 
@@ -42,7 +42,7 @@ A SaaS data profiling tool that analyzes CSV/Excel files and provides AI-powered
 
 ```bash
 git clone <repository-url>
-cd DataInsight-Pro
+cd Data-Nexa
 ```
 
 ### 2. Backend Setup
@@ -77,7 +77,7 @@ SECRET_KEY=your_secret_key_here
 # POSTGRES_SERVER=localhost
 # POSTGRES_USER=postgres
 # POSTGRES_PASSWORD=your_password
-# POSTGRES_DB=datainsight
+# POSTGRES_DB=datanexa
 ```
 
 ### 3. Frontend Setup
@@ -117,7 +117,7 @@ npm run dev
 ## 📁 Project Structure
 
 ```
-DataInsight-Pro/
+Data-Nexa/
 ├── backend/                    # FastAPI Backend
 │   ├── app/
 │   │   ├── api/v1/            # API endpoints
@@ -201,7 +201,7 @@ npm run lint
 
 ## 🤖 AI Integration
 
-DataInsight Pro uses **Groq** for AI-powered insights:
+Data Nexa uses **Groq** for AI-powered insights:
 
 - **Model**: Llama 3.1 70B Versatile
 - **Features**: Data quality analysis, recommendations, code generation
@@ -220,15 +220,15 @@ DataInsight Pro uses **Groq** for AI-powered insights:
 ### Backend
 ```bash
 cd backend
-docker build -t datainsight-backend .
-docker run -p 8000:8000 --env-file .env datainsight-backend
+docker build -t datanexa-backend .
+docker run -p 8000:8000 --env-file .env datanexa-backend
 ```
 
 ### Frontend
 ```bash
 cd frontend
-docker build -t datainsight-frontend .
-docker run -p 3000:3000 datainsight-frontend
+docker build -t datanexa-frontend .
+docker run -p 3000:3000 datanexa-frontend
 ```
 
 ## 🧪 Testing

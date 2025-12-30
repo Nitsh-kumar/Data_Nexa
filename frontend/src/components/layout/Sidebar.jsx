@@ -10,7 +10,7 @@ const menu = [
 
 export const Sidebar = () => (
   <aside className="hidden w-64 flex-shrink-0 border-r border-gray-200 bg-white px-4 py-6 lg:block">
-    <h2 className="mb-6 text-xl font-semibold text-primary-600">DataInsight Pro</h2>
+    <h2 className="mb-6 text-xl font-semibold text-primary-600">Data Nexa</h2>
     <nav className="space-y-2">
       {menu.map((item) => (
         <NavLink

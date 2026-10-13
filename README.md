@@ -1,294 +1,66 @@
 # Data Nexa
 
-A SaaS data profiling tool that analyzes CSV/Excel files and provides AI-powered insights. Built with FastAPI backend and React frontend.
+A data-profiling product prototype with a React interface and a FastAPI AI-insight engine. The intended product helps users move from a dataset to a profile, quality issues, and recommendations.
 
-## 🚀 Features
+**Status:** partial implementation. The full upload → profile → saved insight flow is not connected.
 
-- 📊 **File Analysis**: Upload and analyze CSV/Excel files
-- 🔍 **Data Profiling**: Automated data quality assessment
-- 🤖 **AI Insights**: Groq-powered intelligent recommendations
-- 🔐 **Authentication**: JWT-based secure access
-- 🏢 **Multi-tenant**: Workspace-based organization
-- ⚡ **High Performance**: Async FastAPI + React with Vite
+## What exists
 
-## 🛠 Tech Stack
+| Area | Current source |
+| --- | --- |
+| Frontend | React/JavaScript pages, stores, upload components, and API clients |
+| AI engine | Groq orchestration, prompt building, anonymization helpers, parsing, categorization, and cache logic |
+| API | Health endpoint and insight router |
+| Authentication/upload/workspaces | Planned frontend contracts; corresponding complete backend workflows are missing |
+| Reports/remediation | Some screens and actions use static or mock content |
 
-### Backend
-- **Framework**: FastAPI (Python 3.11+)
-- **Database**: PostgreSQL with SQLAlchemy 2.0 (async)
-- **AI**: Groq API (Llama 3.1 70B)
-- **Authentication**: JWT tokens with bcrypt
-- **Data Processing**: Pandas, OpenPyXL
-- **Code Quality**: Black, isort, mypy, pytest
+The frontend is JavaScript/JSX, not TypeScript. A folder named `tests` exists in the backend, but it currently contains only a package marker.
 
-### Frontend
-- **Framework**: React 18 with TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS
-- **State Management**: Zustand
-- **HTTP Client**: Axios
-- **Charts**: Chart.js / Recharts
+## Source map
 
-## 📋 Prerequisites
+- [backend/app/main.py](backend/app/main.py): registered routes.
+- [backend/app/api/v1/insights.py](backend/app/api/v1/insights.py): insight endpoints and placeholders.
+- [backend/app/core/ai_engine](backend/app/core/ai_engine): implemented AI modules.
+- [frontend/src](frontend/src): interface and client contracts.
+- [.kiro/specs](.kiro/specs): design requirements and planned tasks; these are not proof of completed features.
 
-- **Python 3.11+**
-- **Node.js 18+**
-- **PostgreSQL 14+** (optional - SQLite works for development)
-- **Groq API Key** (get from [console.groq.com](https://console.groq.com))
+## Local development
 
-## 🚀 Quick Start
+Use Python 3.11+ and a Node.js version compatible with the checked-in Vite dependencies.
 
-### 1. Clone Repository
+From `backend/`, create and activate a virtual environment, then install `requirements.txt`. Copy `.env.example` to a local `.env` and supply fresh `SECRET_KEY` and `GROQ_API_KEY` values.
+
+The default database URL uses `aiosqlite`, which is missing from the requirements file. Install that driver for a SQLite experiment, or configure a PostgreSQL database with the declared async driver. These paths need runtime validation.
 
 ```bash
-git clone <repository-url>
-cd Data-Nexa
+# From backend/
+python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-### 2. Backend Setup
+For the interface:
 
 ```bash
-cd backend
-
-# Create and activate virtual environment
-python -m venv venv
-# Windows:
-venv\Scripts\activate
-# macOS/Linux:
-source venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Configure environment
-cp .env.example .env
-# Edit .env with your Groq API key and other settings
-```
-
-**Required Environment Variables:**
-```env
-# Get from console.groq.com
-GROQ_API_KEY=gsk_your_groq_api_key_here
-
-# Generate with: openssl rand -hex 32
-SECRET_KEY=your_secret_key_here
-
-# Database (SQLite by default, PostgreSQL optional)
-# POSTGRES_SERVER=localhost
-# POSTGRES_USER=postgres
-# POSTGRES_PASSWORD=your_password
-# POSTGRES_DB=datanexa
-```
-
-### 3. Frontend Setup
-
-```bash
-cd frontend
-
-# Install dependencies
-npm install
-
-# Configure environment
-cp .env.example .env
-# Edit .env with your backend URL
-```
-
-### 4. Run Development Servers
-
-**Backend** (Terminal 1):
-```bash
-cd backend
-python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
-
-**Frontend** (Terminal 2):
-```bash
-cd frontend
+# From frontend/
+npm ci
 npm run dev
 ```
 
-### 5. Access Application
+Copy `frontend/.env.example` to `frontend/.env`; its API setting is `VITE_API_URL=http://localhost:8000/api/v1`. Set backend `ALLOWED_ORIGINS` to the actual frontend origin printed by Vite. The existing default origins may differ.
 
-- **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:8000
-- **API Docs**: http://localhost:8000/docs
-- **Health Check**: http://localhost:8000/health
+After successful backend startup, inspect `http://localhost:8000/docs` and `/health`. A healthy process does not prove the planned upload/auth routes work.
 
-## 📁 Project Structure
+## Development checks
 
-```
-Data-Nexa/
-├── backend/                    # FastAPI Backend
-│   ├── app/
-│   │   ├── api/v1/            # API endpoints
-│   │   ├── core/              # Security, config, exceptions
-│   │   │   └── ai_engine/     # Groq AI integration
-│   │   ├── models/            # SQLAlchemy models
-│   │   ├── schemas/           # Pydantic schemas
-│   │   ├── services/          # Business logic
-│   │   ├── utils/             # Utilities
-│   │   └── db/                # Database config
-│   ├── tests/                 # Backend tests
-│   ├── requirements.txt       # Python dependencies
-│   └── .env                   # Backend environment
-│
-├── frontend/                   # React Frontend
-│   ├── src/
-│   │   ├── components/        # UI components
-│   │   ├── pages/             # Route components
-│   │   ├── store/             # Zustand stores
-│   │   ├── services/          # API calls
-│   │   ├── hooks/             # Custom hooks
-│   │   └── utils/             # Utilities
-│   ├── package.json           # Node dependencies
-│   └── .env                   # Frontend environment
-│
-├── .postman.json              # Postman collection config
-├── .kiro/                     # Kiro configuration
-└── README.md                  # This file
-```
+The frontend declares `npm run build` and `npm run lint`. It has no `npm run test` script. There is a backend Dockerfile, but no checked-in frontend Dockerfile or implemented backend test suite in this revision.
 
-## 🔧 Development
+## Data handling and limitations
 
-### Backend Commands
+The design uses an external AI provider. It cannot promise that all data stays inside a VPC. Anonymization helpers need validation before any sensitive dataset is used.
 
-```bash
-cd backend
+Workspace authorization, persistence, cache identity, supported file formats, and request limits need completion. Treat advertised multi-tenancy and authentication as goals until the end-to-end flow is implemented and tested.
 
-# Code formatting
-black app/ tests/
-isort app/ tests/
+The existing README identifies this project as proprietary. This documentation change does not grant a new license. See [project status](docs/PROJECT_STATUS.md).
 
-# Type checking
-mypy app/
+## Validation
 
-# Run tests
-pytest tests/ -v
-
-# Database migrations (when available)
-alembic upgrade head
-```
-
-### Frontend Commands
-
-```bash
-cd frontend
-
-# Development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-
-# Linting
-npm run lint
-```
-
-## 🌐 API Endpoints
-
-### AI Insights
-- `GET /api/v1/insights/{analysis_id}` - Get insights for analysis
-- `GET /api/v1/insights/{analysis_id}/summary` - Get insights summary
-- `POST /api/v1/insights/{analysis_id}/generate` - Generate new insights
-- `GET /api/v1/insights/stats/tokens` - Get Groq API token usage
-- `GET /api/v1/insights/stats/cache` - Get Redis cache statistics
-
-### Health
-- `GET /health` - Health check endpoint
-
-## 🤖 AI Integration
-
-Data Nexa uses **Groq** for AI-powered insights:
-
-- **Model**: Llama 3.1 70B Versatile
-- **Features**: Data quality analysis, recommendations, code generation
-- **Cost**: Very low cost compared to other AI providers
-- **Speed**: Ultra-fast inference times
-
-### Getting Groq API Key
-
-1. Visit [console.groq.com](https://console.groq.com)
-2. Sign up/login
-3. Create an API key
-4. Add to your `.env` file: `GROQ_API_KEY=gsk_your_key_here`
-
-## 🐳 Docker Deployment
-
-### Backend
-```bash
-cd backend
-docker build -t datanexa-backend .
-docker run -p 8000:8000 --env-file .env datanexa-backend
-```
-
-### Frontend
-```bash
-cd frontend
-docker build -t datanexa-frontend .
-docker run -p 3000:3000 datanexa-frontend
-```
-
-## 🧪 Testing
-
-### Backend Testing
-```bash
-cd backend
-pytest tests/ -v --cov=app
-```
-
-### Frontend Testing
-```bash
-cd frontend
-npm run test
-```
-
-## 📚 Documentation
-
-- **API Documentation**: http://localhost:8000/docs (Swagger UI)
-- **Architecture**: See `backend/docs/` for detailed architecture docs
-- **AI Engine**: See `backend/docs/AI_INSIGHTS.md` for AI integration details
-
-## 🤝 Contributing
-
-1. **Code Style**: Follow Black formatting (max line length: 100)
-2. **Type Hints**: Add type hints to all Python functions
-3. **Documentation**: Write docstrings in Google format
-4. **Testing**: Write tests for new features
-5. **Architecture**: Use repository pattern for data access
-
-## 📄 License
-
-Proprietary
-
-## 🆘 Troubleshooting
-
-### Common Issues
-
-**Backend won't start:**
-- Check if virtual environment is activated
-- Verify all environment variables are set
-- Ensure Groq API key is valid
-
-**Frontend won't start:**
-- Run `npm install` to install dependencies
-- Check Node.js version (18+ required)
-- Verify backend is running on port 8000
-
-**Database issues:**
-- Default uses SQLite (no setup required)
-- For PostgreSQL, ensure database exists and credentials are correct
-
-**AI insights not working:**
-- Verify Groq API key is set correctly
-- Check API key has sufficient credits
-- Review backend logs for detailed error messages
-
-### Getting Help
-
-1. Check the logs in both backend and frontend terminals
-2. Visit API docs at http://localhost:8000/docs
-3. Review environment variable configuration
-4. Ensure all dependencies are installed correctly
+This documentation was checked against repository files on 13 October 2026. Builds, application runs, and test suites were not executed during this documentation pass. Commands below describe the intended local workflow, not a verified deployment.
